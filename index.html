@@ -6,7 +6,7 @@
   <title>AKZXCEL | Portfolio</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" href="index.css">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="bg-pattern"></div>
@@ -14,61 +14,35 @@
   <div class="scroll-progress" id="scroll-progress"></div>
   
   <header>
-    <h1>AKZXCEL</h1>
+    <h1 class="animate">AKZXCEL</h1>
     <nav>
-      <a href="#about">About</a>
-      <a href="#skills">Skills</a>
-      <a href="#projects">Projects</a>
-      <a href="#contact">Contact</a>
+      <a href="#about" class="animate delay-1">About</a>
+      <a href="#skills" class="animate delay-1">Skills</a>
+      <a href="#projects" class="animate delay-2">Projects</a>
+      <a href="#contact" class="animate delay-2">Contact</a>
     </nav>
   </header>
 
   <section class="hero">
-    <h1>Hello, I'm AKZXCEL</h1>
-    <p>Video Editor & Web Developer. Turning ideas into modern digital experiences.</p>
-    <a href="#contact" class="cta-button">Let's Collaborate</a>
+    <div class="hero-container">
+      <div class="hero-content">
+        <h1 class="animate">Hello, I'm AKZXCEL</h1>
+        <p class="animate delay-1">Video Editor & Web Developer. Turning ideas into modern digital experiences.</p>
+        <a href="#contact" class="cta-button animate delay-2">Let's Collaborate</a>
+      </div>
+    </div>
   </section>
 
   <section class="section" id="about">
-    <h2>About Me</h2>
-    <p>I'm passionate about editing videos and building websites. I've developed solid skills in both visual editing and code — now ready to serve real clients and grow a brand.</p>
-    <p style="margin-top: 1.5rem;">Here's a quick look at my current programming skills:</p>
+    <h2 class="animate">About Me</h2>
+    <p class="animate delay-1">I'm passionate about editing videos and building websites.</p>
 
     <div class="skills">
-      <div class="skill">
-        <label>HTML</label>
-        <div class="progress-bar" >
-          <div class="bar html" data-width="90%"></div>
-        </div>
-      </div>
-
-      <div class="skill">
-        <label>Java</label>
-        <div class="progress-bar">
-          <div class="bar java" data-width="75%"></div>
-        </div>
-      </div>
-
-      <div class="skill">
-        <label>JavaScript</label>
-        <div class="progress-bar">
-          <div class="bar js" data-width="70%"></div>
-        </div>
-      </div>
-
-      <div class="skill">
-        <label>PHP</label>
-        <div class="progress-bar">
-          <div class="bar php" data-width="55%"></div>
-        </div>
-      </div>
-
-      <div class="skill">
-        <label>SQL Database</label>
-        <div class="progress-bar">
-          <div class="bar sql" data-width="45%"></div>
-        </div>
-      </div>
+      <div class="skill"><label>HTML</label><div class="progress-bar"><div class="bar html" data-value="80"></div></div></div>
+      <div class="skill"><label>Java</label><div class="progress-bar"><div class="bar java" data-value="70"></div></div></div>
+      <div class="skill"><label>JavaScript</label><div class="progress-bar"><div class="bar js" data-value="70"></div></div></div>
+      <div class="skill"><label>PHP</label><div class="progress-bar"><div class="bar php" data-value="50"></div></div></div>
+      <div class="skill"><label>SQL Database</label><div class="progress-bar"><div class="bar sql" data-value="30"></div></div></div>
     </div>
   </section>
 
@@ -76,6 +50,6 @@
     <p>&copy; 2025 AKZXCEL. All rights reserved.</p>
   </footer>
 
-  <script src="index.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
