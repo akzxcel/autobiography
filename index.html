@@ -788,30 +788,30 @@ nav a:hover {
         <div class="skill">
             <label>HTML</label>
             <div class="progress-bar">
-                <div class="bar html" style="width: 80%;"></div>
+                <div class="bar html" data-width="80"></div>
             </div>
             <div class="skill">
             <label>Java</label>
             <div class="progress-bar">
-                <div class="bar html" style="width: 70%;"></div>
+              <div class="bar java" data-width="70"></div>
             </div>
         </div>
         <div class="skill">
             <label>JavaScript</label>
             <div class="progress-bar">
-                <div class="bar js" style="width: 70%;"></div>
+              <div class="bar js" data-width="70"></div>
             </div>
         </div>
         <div class="skill">
             <label>PHP</label>
             <div class="progress-bar">
-                <div class="bar php" style="width: 50%;"></div>
+                <div class="bar php" data-width="50"></div>
             </div>
         </div>
         <div class="skill">
             <label>SQL Database</label>
             <div class="progress-bar">
-                <div class="bar sql" style="width: 30%;"></div>
+             <div class="bar sql" data-width="30"></div>
             </div>
         </div>
     </div>
@@ -1161,25 +1161,26 @@ const idCard = document.querySelector('.id-card');
     });
 
 // Animate skill bars when they come into view
+// Animate skill bars when they come into view
 const skillBars = document.querySelectorAll('.bar');
 
 const skillObserver = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
       const bar = entry.target;
-      const targetWidth = bar.getAttribute('style').match(/width:\s*([\d.]+%)/)[1];
-      bar.style.width = targetWidth; // trigger animation
-      skillObserver.unobserve(bar);
+      const targetWidth = bar.dataset.width; // get value from data-width
+      bar.style.width = targetWidth + '%'; // animate to that value
+      skillObserver.unobserve(bar); // stop observing once animated
     }
   });
 }, { threshold: 0.5 });
 
+// Initialize observer
 skillBars.forEach(bar => {
-  const currentWidth = bar.getAttribute('style').match(/width:\s*([\d.]+%)/)[1];
-  bar.setAttribute('data-width', currentWidth);
-  bar.style.width = '0'; // reset initially
+  bar.style.width = '0'; // start from 0%
   skillObserver.observe(bar);
 });
+
 
 
   </script>
