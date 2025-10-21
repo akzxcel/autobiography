@@ -855,10 +855,13 @@ nav a:hover {
         overflow: hidden;
     }
 
-    .bar {
-        height: 100%;
-        transition: width 0.3s ease-in-out;
-    }
+ .bar {
+  height: 100%;
+  width: 0; /* Start from 0 */
+  transition: width 2s ease-in-out; /* Smooth filling */
+  border-radius: 10px;
+}
+
 
     .html {
         background-color: #4CAF50;
@@ -1178,6 +1181,26 @@ const idCard = document.querySelector('.id-card');
       idCard.style.transition = 'transform 0.5s ease';
     });
 
+// Animate skill bars when they come into view
+const skillBars = document.querySelectorAll('.bar');
+
+const skillObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const bar = entry.target;
+      const targetWidth = bar.getAttribute('style').match(/width:\s*([\d.]+%)/)[1];
+      bar.style.width = targetWidth; // trigger animation
+      skillObserver.unobserve(bar);
+    }
+  });
+}, { threshold: 0.5 });
+
+skillBars.forEach(bar => {
+  const currentWidth = bar.getAttribute('style').match(/width:\s*([\d.]+%)/)[1];
+  bar.setAttribute('data-width', currentWidth);
+  bar.style.width = '0'; // reset initially
+  skillObserver.observe(bar);
+});
 
 
   </script>
