@@ -919,29 +919,41 @@ nav a:hover {
     <div class="project-overlay">
       <h3 class="project-title">Social Media Ad Edit</h3>
       <p class="project-desc">Short-form video in vertical phone ratio.</p>
-      <button class="mute-btn" onclick="toggleMute('video3')">Unmute</button>
+      <button class="mute-btn" onclick="toggleMute('video3', this)">Unmute</button>
     </div>
   </div>
 </div>
 
 <script>
-  // Function to toggle mute/unmute
-  function toggleMute(videoId) {
+  // Robust toggleMute: accepts the video ID and the button element (optional).
+  function toggleMute(videoId, btn) {
     const video = document.getElementById(videoId);
-    const button = video.closest('.project-overlay').querySelector('.mute-btn');
+    // if button element was passed, use it; otherwise try to find it near the video
+    const button = btn || (video && video.nextElementSibling && video.nextElementSibling.querySelector('.mute-btn'));
 
-    // Allow user to unmute and start audio
+    if (!video) {
+      console.warn('toggleMute: video not found:', videoId);
+      return;
+    }
+
+    // If video is muted -> unmute, set volume, then try to play (user gesture required)
     if (video.muted || video.volume === 0) {
       video.muted = false;
       video.volume = 1;
-      video.play();
-      button.textContent = 'Mute';
+      // Attempt to play — returns a promise; catching prevents uncaught rejections
+      const p = video.play();
+      if (p && p.catch) p.catch(err => {
+        // Some browsers still block autoplay with sound even after click in rare cases
+        console.warn('video.play() rejected:', err);
+      });
+      if (button) button.textContent = 'Mute';
     } else {
       video.muted = true;
-      button.textContent = 'Unmute';
+      if (button) button.textContent = 'Unmute';
     }
   }
 </script>
+
 
 <style>
 .mute-btn {
