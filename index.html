@@ -713,73 +713,7 @@ nav a:hover {
   </style>
 </head>
 <body>
-  <!-- Floating Soundwave Visualizer -->
-<canvas id="soundwave" width="300" height="80" style="
-  position: fixed;
-  top: 70px;
-  right: 60px;
-  opacity: 0.35;
-  pointer-events: none;
-  z-index: 999;
-"></canvas>
-
-<script>
-  let audioCtx, analyser, dataArray, bufferLength, audio, canvas, ctx, animationId;
-
-  // Initialize soundwave and music after first user interaction
-  function initSoundwave() {
-    if (audioCtx) return; // Prevent multiple inits
-    const mp3URL = "phonk.mp3"; // <-- replace with your actual mp3 GitHub URL
-    
-    audio = new Audio(mp3URL);
-    audio.loop = true;
-    audio.volume = 0.5;
-    
-    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    const source = audioCtx.createMediaElementSource(audio);
-    analyser = audioCtx.createAnalyser();
-    source.connect(analyser);
-    analyser.connect(audioCtx.destination);
-
-    analyser.fftSize = 256;
-    bufferLength = analyser.frequencyBinCount;
-    dataArray = new Uint8Array(bufferLength);
-
-    canvas = document.getElementById("soundwave");
-    ctx = canvas.getContext("2d");
-
-    audio.play();
-    drawWave();
-  }
-
-  // Draw the soundwave bars
-  function drawWave() {
-    animationId = requestAnimationFrame(drawWave);
-    analyser.getByteFrequencyData(dataArray);
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    const barWidth = (canvas.width / bufferLength) * 2.5;
-    let x = 0;
-
-    for (let i = 0; i < bufferLength; i++) {
-      const barHeight = dataArray[i] / 3;
-      ctx.fillStyle = `rgba(255, 77, 77, ${0.3 + barHeight / 400})`;
-      ctx.fillRect(x, canvas.height - barHeight, barWidth, barHeight);
-      x += barWidth + 1;
-    }
-  }
-
-  // Allow play after first user gesture
-  const startAudio = () => {
-    initSoundwave();
-    document.removeEventListener('scroll', startAudio);
-    document.removeEventListener('click', startAudio);
-  };
-
-  document.addEventListener('scroll', startAudio);
-  document.addEventListener('click', startAudio);
-</script>
-
+ 
   <div class="bg-pattern"></div>
   <div class="particles" id="particles"></div>
   <div class="cursor" id="cursor"></div>
@@ -1287,5 +1221,78 @@ skillBars.forEach(bar => {
 
 
   </script>
+
+  <!-- Floating Soundwave Visualizer -->
+<canvas id="soundwave" width="260" height="60" style="
+  position: fixed;
+  top: 70px;
+  right: 60px;
+  opacity: 0.4;
+  pointer-events: none;
+  z-index: 1000;
+"></canvas>
+
+<script>
+  let audio, audioCtx, analyser, dataArray, bufferLength, ctx, canvas;
+
+  const mp3URL = "https://YOUR_USERNAME.github.io/YOUR_REPO/music.mp3"; 
+  // 👆 Replace this with your actual GitHub Pages MP3 link
+
+  function initVisualizer() {
+    if (audioCtx) return; // already running
+
+    // Audio setup
+    audio = new Audio(mp3URL);
+    audio.loop = true;
+    audio.volume = 0.2; // soft ambient sound
+    audio.crossOrigin = "anonymous";
+
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const src = audioCtx.createMediaElementSource(audio);
+    analyser = audioCtx.createAnalyser();
+    src.connect(analyser);
+    analyser.connect(audioCtx.destination);
+    analyser.fftSize = 128;
+
+    bufferLength = analyser.frequencyBinCount;
+    dataArray = new Uint8Array(bufferLength);
+
+    canvas = document.getElementById("soundwave");
+    ctx = canvas.getContext("2d");
+
+    audio.play().catch(() => console.log("User interaction required"));
+
+    drawWave();
+  }
+
+  function drawWave() {
+    requestAnimationFrame(drawWave);
+    if (!analyser) return;
+    analyser.getByteFrequencyData(dataArray);
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    const barWidth = (canvas.width / bufferLength) * 1.8;
+    let x = 0;
+
+    for (let i = 0; i < bufferLength; i++) {
+      const barHeight = dataArray[i] / 2.2;
+      ctx.fillStyle = `rgba(255, 77, 77, ${0.15 + barHeight / 300})`;
+      ctx.fillRect(x, canvas.height - barHeight, barWidth, barHeight);
+      x += barWidth + 1;
+    }
+  }
+
+  // Activate on first user interaction
+  function activateAudio() {
+    initVisualizer();
+    document.removeEventListener("click", activateAudio);
+    document.removeEventListener("scroll", activateAudio);
+  }
+
+  document.addEventListener("click", activateAudio);
+  document.addEventListener("scroll", activateAudio);
+</script>
+
 </body>
 </html>  
