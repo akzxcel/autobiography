@@ -729,7 +729,7 @@ nav a:hover {
   // Initialize soundwave and music after first user interaction
   function initSoundwave() {
     if (audioCtx) return; // Prevent multiple inits
-    const mp3URL = "https://phonk.mp3"; // <-- replace with your actual mp3 GitHub URL
+    const mp3URL = "phonk.mp3"; // <-- replace with your actual mp3 GitHub URL
     
     audio = new Audio(mp3URL);
     audio.loop = true;
